@@ -1,0 +1,72 @@
+@startuml
+
+class Server {
+    -String authToken
+    getConnection()
+    sync()
+}
+
+class Account {
+    authenticate()
+    createUser()
+    resetPassword()
+    deleteAccount()
+}
+User <|== Account
+
+class User {
+    String username
+    sendReceipt(Receipt)
+}
+
+
+class ReceiptCode {
+    -String code
+    downloadReceipt()
+}
+
+class ReceiptWallet {
+    Receipt search(String query)
+    addCategory()
+}
+
+class Category {
+    -name
+    List<Receipt> listReceipts()
+    addReceipt(Receipt)
+}
+
+class Receipt {
+    String receiptId
+    String path
+}
+
+class MonthlySummary {
+    Date monthStart
+    getTotal()
+    generateChart()
+}
+
+class FriendsList {
+    listFriends()
+    sendFriendRequest()
+}
+
+class Sharing {
+    generatePDF(Receipt)
+    share()
+    export()
+    print()
+}
+
+class ReceiptScanner {
+    scanReceipt()
+    decodeReceipt()
+}
+
+class Notification {
+    pushNotification()
+
+}
+
+@enduml

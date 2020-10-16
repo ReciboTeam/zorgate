@@ -66,7 +66,26 @@ class ReceiptScanner {
 
 class Notification {
     pushNotification()
-
 }
+
+class SortStrategy {
+int compare(Receipt a, Receipt b)
+}
+
+class SortByDate {
+int compare(Receipt a, Receipt b)
+}
+SortStrategy <|== SortByDate
+
+class SortByCategory {
+int compare(Receipt a, Receipt b)
+}
+SortStrategy <|== SortByCategory
+
+class SortByMerchant {
+int compare(Receipt a, Receipt b)
+}
+SortStrategy <|== SortByMerchant
+
 
 @enduml

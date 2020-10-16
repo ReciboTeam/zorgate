@@ -1,6 +1,6 @@
 @startuml
 
-class Server {
+class Server <<singleton>> {
     -String authToken
     getConnection()
     sync()
@@ -12,13 +12,12 @@ class Account {
     resetPassword()
     deleteAccount()
 }
-User <|== Account
+Server <.. Account
 
 class User {
     String username
     sendReceipt(Receipt)
 }
-
 
 class ReceiptCode {
     -String code
@@ -28,7 +27,10 @@ class ReceiptCode {
 class ReceiptWallet {
     Receipt search(String query)
     addCategory()
+    addReceipt(ReceiptCode code)
 }
+SearchStrategy <.. ReceiptWallet
+ReceiptCode <.. ReceiptWallet
 
 class Category {
     -name
@@ -52,17 +54,19 @@ class FriendsList {
     sendFriendRequest()
 }
 
-class Sharing {
+class SharingDialog {
     generatePDF(Receipt)
     share()
     export()
     print()
 }
+FriendsList <.. SharingDialog
 
 class ReceiptScanner {
     scanReceipt()
     decodeReceipt()
 }
+Server <.. ReceiptScanner
 
 class Notification {
     pushNotification()
@@ -87,5 +91,61 @@ int compare(Receipt a, Receipt b)
 }
 SortStrategy <|== SortByMerchant
 
+class Page {
+
+}
+
+class LaunchPage {
+
+}
+Page <|== LaunchPage
+
+class SignUpPage {
+
+}
+Page <|== SignUpPage
+Account <.. SignUpPage
+
+class HomePage {
+
+}
+Page <|== HomePage
+
+class LoginPage {
+
+}
+Page <|== LoginPage
+Account <.. LoginPage
+
+class SearchPage {
+}
+Page <|== SearchPage
+SortStrategy <.. SearchPage
+
+class AboutPage {
+}
+Page <|== AboutPage
+
+class ProductPage {
+}
+Page <|== ProductPage
+
+class ListReceiptsPage {
+}
+Page <|== ListReceiptsPage
+
+class SortReceiptsPage {
+}
+Page <|== SortReceiptsPage
+
+class GetReceiptPage {
+}
+Page <|== GetReceiptPage
+ReceiptScanner <.. GetReceiptPage
+
+class MonthlySummaryPage {
+}
+Page <|== MonthlySummaryPage
+MonthlySummary <.. MonthlySummaryPage
 
 @enduml

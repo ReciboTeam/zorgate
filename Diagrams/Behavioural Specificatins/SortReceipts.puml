@@ -1,0 +1,25 @@
+@startuml
+
+|User|
+|Application|
+|User|
+title Sort Receipts
+start
+    |User|
+    #Application:Log in;
+    #Application:Click sort receipt button;
+    |Application|
+    if (Display the sort category options) then
+        :Sort by date;
+    else
+        :Sort by store's name;
+    endif;
+
+    |User|
+    #Application:Chooses the category;
+    |Application|
+    :Receipts are sorted and displayed
+     based on the sort category;
+
+stop
+@enduml

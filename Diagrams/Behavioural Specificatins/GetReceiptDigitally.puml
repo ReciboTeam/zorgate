@@ -1,0 +1,24 @@
+@startuml
+
+|User|
+|Application|
+|Database Server|
+|User|
+title Get Receipt Digitally
+start
+
+    |User|
+    #Application:Log In;
+    #Application:Click "Scan QR code";
+    |Application|
+    #pink:Use use app to scan QR code;
+    |Database Server|
+    #Lavender:Receipts are sent to the
+    database server;
+    |Application|
+    #pink:App retrieves receipt for user;
+    |User|
+    #Application:User now has access to the receipt;
+
+stop
+@enduml

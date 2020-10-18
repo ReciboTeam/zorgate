@@ -11,7 +11,9 @@ start
     #Application:Log In;
     #Application:Click "Scan QR code";
     |Application|
-    #pink:Use use app to scan QR code;
+    #pink:Loads camera to scan QR code;
+    |User|
+    #Application:Use app to scan QR code;
     |Database Server|
     #Lavender:Receipts are sent to the
     database server;

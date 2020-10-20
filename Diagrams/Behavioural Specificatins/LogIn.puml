@@ -1,0 +1,39 @@
+@startuml
+!define LIGHTBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+
+|#Lavender|User|
+|#Plum|Recibo App|
+|#Thistle|Database|
+|User|
+title Log In
+start
+    :User launches the application;
+    |Recibo App|
+        #Application:Display the log in menu;
+    #Pink:repeat
+        #Application:Prompt the user to enter
+        their username and password;
+    |User|
+        :Enters the log in information;
+    |Recibo App|
+        #Application:Gets the information and validates
+        log in the credential;
+    |Database|
+        #Pink:Check if the username and
+        password exist or match;
+    |Database|
+        repeat while (Data Match?) is (False)
+        -> True;
+        #Pink:Return user's data to the Application;
+    |Recibo App|
+        #Application:Get the user's data and launches
+        the application's navigation pages;
+
+
+
+
+stop
+
+
+@enduml

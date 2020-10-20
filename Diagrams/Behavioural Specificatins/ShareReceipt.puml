@@ -1,0 +1,38 @@
+@startuml
+!define LIGHTBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+
+title Share Receipt\n
+
+|#Lavender|User|
+|#Plum|Receibo App|
+|#Thistle|Database|
+'|User|
+'|Receibo App|
+'|Database|
+
+|User|
+start
+    :Click Share Receipt Button;
+    
+|Receibo App|
+    #APPLICATION:Display All Receipts;
+|User|
+    :Choose Receipt to share;
+|Receibo App|
+    #APPLICATION:Display Friend Lists;
+|User|
+    :Select friends;
+
+|Receibo App|
+    #APPLICATION:if (Confirm to send) then (No)
+        #APPLICATION:Display All Receipts;
+    else (Yes)
+        |Database|
+        #Pink:Retrieve data from \nthe selected Receipt;
+|Receibo App|
+    #APPLICATION:Send the Receipt;
+    endif
+stop
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+!define LIGHTBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+
+title Summary\n
+
+|#Lavender|User|
+|#Plum|Receibo App|
+|#Thistle|Database|
+'|User|
+'|Receibo App|
+'|Database|
+
+|User|
+start
+    :Click View Summary;
+    :Select Month;
+
+|Database|
+    #Pink:Retrieve data for\nthe month selected;
+|Receibo App|
+    #APPLICATION:Generate summary\nof all receipts;
+    #APPLICATION:Display Sumary;
+
+stop
+@enduml

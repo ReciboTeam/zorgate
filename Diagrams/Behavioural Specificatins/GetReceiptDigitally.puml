@@ -1,26 +1,28 @@
 @startuml
+!define LIGHTBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
 
-|User|
-|Application|
-|Database Server|
+|#Lavender|User|
+|#Plum|Recibo App|
+|#Thistle|Database|
 |User|
 title Get Receipt Digitally
 start
 
     |User|
-    #Application:Log In;
-    #Application:Click "Scan QR code";
-    |Application|
-    #pink:Loads camera to scan QR code;
+        :Log In;
+        :Click "Scan QR code";
+    |Recibo App|
+        #Application:Loads camera to scan QR code;
     |User|
-    #Application:Use app to scan QR code;
-    |Database Server|
-    #Lavender:Receipts are sent to the
-    database server;
-    |Application|
-    #pink:App retrieves receipt for user;
+        :Use app to scan QR code;
+    |Database|
+        #Pink:Receipts are sent to the
+        database server;
+    |Recibo App|
+        #Application:App retrieves receipt for user;
     |User|
-    #Application:User now has access to the receipt;
+        :User now has access to the receipt;
 
 stop
 @enduml

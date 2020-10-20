@@ -1,24 +1,27 @@
 @startuml
+!define LIGHTBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
 
+|#Lavender|User|
+|#Plum|Recibo App|
 |User|
-|Application|
-|User|
+
 title Sort Receipts
 start
     |User|
-    #Application:Log in;
-    #Application:Click sort receipt button;
-    |Application|
-    if (Display the sort category options) then
-        :Sort by date;
-    else
-        :Sort by store's name;
-    endif;
+        :Log in;
+        :Click sort receipt button;
+    |Recibo App|
+        #Application:if (Display the sort category options) then
+            #Application:Sort by date;
+        else
+            #Application:Sort by store's name;
+        endif;
 
     |User|
-    #Application:Chooses the category;
-    |Application|
-    :Receipts are sorted and displayed
+        :Chooses the category;
+    |Recibo App|
+        #Application:Receipts are sorted and displayed
      based on the sort category;
 
 stop

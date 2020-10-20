@@ -5,10 +5,10 @@
 title Summary\n
 
 |#Lavender|User|
-|#Plum|Receibo App|
+|#Plum|Recibo App|
 |#Thistle|Database|
 '|User|
-'|Receibo App|
+'|Recibo App|
 '|Database|
 
 |User|
@@ -18,7 +18,7 @@ start
 
 |Database|
     #Pink:Retrieve data for\nthe month selected;
-|Receibo App|
+|Recibo App|
     #APPLICATION:Generate summary\nof all receipts;
     #APPLICATION:Display Sumary;
 

@@ -5,32 +5,32 @@
 title Share Receipt\n
 
 |#Lavender|User|
-|#Plum|Receibo App|
+|#Plum|Recibo App|
 |#Thistle|Database|
 '|User|
-'|Receibo App|
+'|Recibo App|
 '|Database|
 
 |User|
 start
     :Click Share Receipt Button;
     
-|Receibo App|
+|Recibo App|
     #APPLICATION:Display All Receipts;
 |User|
     :Choose Receipt to share;
-|Receibo App|
+|Recibo App|
     #APPLICATION:Display Friend Lists;
 |User|
     :Select friends;
 
-|Receibo App|
+|Recibo App|
     #APPLICATION:if (Confirm to send) then (No)
         #APPLICATION:Display All Receipts;
     else (Yes)
         |Database|
         #Pink:Retrieve data from \nthe selected Receipt;
-|Receibo App|
+|Recibo App|
     #APPLICATION:Send the Receipt;
     endif
 stop

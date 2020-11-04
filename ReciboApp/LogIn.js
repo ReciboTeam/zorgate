@@ -13,27 +13,26 @@ export default class App extends React.Component {
         <View style={styles.inputView} >
           <TextInput  
             style={styles.inputText}
-            placeholder="Email..." 
-            placeholderTextColor="white"
+            placeholder="Enter Your Email" 
+            placeholderTextColor="grey"
             onChangeText={text => this.setState({email:text})}/>
         </View>
         <View style={styles.inputView} >
           <TextInput style={styles.inputText}  
             secureTextEntry
-            placeholder="Password..." 
-            placeholderTextColor="white"
+            placeholder="Enter Your Password" 
+            placeholderTextColor="grey"
             onChangeText={text => this.setState({password:text})}/>
         </View>
-        <TouchableOpacity>
-          <Text style={styles.forgot}>Forgot Password?</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={styles.loginBtn}>
           <Text style={styles.loginText}>Log In</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn}>
-          <Text style={styles.loginText}>Sign Up</Text>
+        <TouchableOpacity>
+          <Text style={styles.forgot}>Forgot Password?</Text>
         </TouchableOpacity>
-
+        <TouchableOpacity>
+          <Text style={styles.forgot}>Don't have an account? Sign up here</Text>
+        </TouchableOpacity>
   
       </View>
     );
@@ -55,7 +54,9 @@ const styles = StyleSheet.create({
   },
   inputView:{
     width:"80%",
-    backgroundColor:"#465881",
+    borderWidth: 2,
+    borderColor: "grey",
+    borderStyle: "solid",
     borderRadius:25,
     height:50,
     marginBottom:20,
@@ -64,11 +65,12 @@ const styles = StyleSheet.create({
   },
   inputText:{
     height:50,
-    color:"white"
+    color:"grey"
   },
   forgot:{
     color:"#e01b84",
-    fontSize:11
+    fontSize:11,
+    marginTop:5
   },
   loginBtn:{
     width:"80%",
@@ -81,6 +83,8 @@ const styles = StyleSheet.create({
     marginBottom:10
   },
   loginText:{
-    color:"white"
+    color:"white",
+    fontSize: 15,
+    fontWeight:"bold"
   }
 });

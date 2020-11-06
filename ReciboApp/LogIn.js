@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 
 import { Navigation } from 'react-native-navigation';
 
+import { Alert } from './Alert'
+
 export default class LogIn extends React.Component {
   state={
     email:"",
@@ -36,10 +38,38 @@ export default class LogIn extends React.Component {
           <Text style={styles.loginText}>Log In</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.forgot}>Forgot Password?</Text>
+          <Text style={styles.forgot} onPress={() => {
+            Navigation.showOverlay({
+              component: {
+                name: 'com.Recibo.Alert',
+                options: {
+                  layout: {
+                        componentBackgroundColor: 'transparent',
+                      },
+                  overlay: {
+                    interceptTouchOutside: true
+                  },
+                },
+                passProps: {
+                  title: "Oof...",
+                  message: "Oh well. ¯\\_(ツ)_/¯"
+                }
+              },
+            });
+          }}>
+          Forgot Password?
+        </Text>
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.forgot}>Don't have an account? Sign up here</Text>
+          <Text style={styles.forgot} onPress={() => {
+                  Navigation.push(this.props.componentId, {
+                    component: {
+                      name: 'com.Recibo.RegisterPage'
+                    }
+                  });
+                }}>
+            Don't have an account? Sign up here
+          </Text>
         </TouchableOpacity>
 
       </View>

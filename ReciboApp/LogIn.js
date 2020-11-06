@@ -1,30 +1,38 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-export default class App extends React.Component {
+import { Navigation } from 'react-native-navigation';
+
+export default class LogIn extends React.Component {
   state={
     email:"",
     password:""
   }
-  render(){
+  render() {
     return (
       <View style={styles.container}>
         <Text style={styles.logo}>RECIBO</Text>
         <View style={styles.inputView} >
-          <TextInput  
+          <TextInput
             style={styles.inputText}
-            placeholder="Enter Your Email" 
+            placeholder="Enter Your Email"
             placeholderTextColor="grey"
             onChangeText={text => this.setState({email:text})}/>
         </View>
         <View style={styles.inputView} >
-          <TextInput style={styles.inputText}  
+          <TextInput style={styles.inputText}
             secureTextEntry
-            placeholder="Enter Your Password" 
+            placeholder="Enter Your Password"
             placeholderTextColor="grey"
             onChangeText={text => this.setState({password:text})}/>
         </View>
-        <TouchableOpacity style={styles.loginBtn}>
+        <TouchableOpacity style={styles.loginBtn} onPress={() => {
+                  Navigation.push(this.props.componentId, {
+                    component: {
+                      name: 'com.Recibo.PageTwo'
+                    }
+                  });
+                }}>
           <Text style={styles.loginText}>Log In</Text>
         </TouchableOpacity>
         <TouchableOpacity>
@@ -33,7 +41,7 @@ export default class App extends React.Component {
         <TouchableOpacity>
           <Text style={styles.forgot}>Don't have an account? Sign up here</Text>
         </TouchableOpacity>
-  
+
       </View>
     );
   }

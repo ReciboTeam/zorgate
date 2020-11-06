@@ -25,6 +25,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import { Navigation } from 'react-native-navigation';
+
 const PageTwo: () => React$Node = () => {
   return (
     <>

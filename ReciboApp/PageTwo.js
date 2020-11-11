@@ -17,8 +17,6 @@ import {
   StatusBar,
 } from 'react-native';
 
-import { Navigation } from 'react-native-navigation';
-
 import {
   Header,
   LearnMoreLinks,
@@ -27,7 +25,9 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App = (props) => {
+import { Navigation } from 'react-native-navigation';
+
+const PageTwo: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -37,22 +37,7 @@ const App = (props) => {
           style={styles.scrollView}>
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Recibo</Text>
-              <Button
-                style={styles.loginButton}
-                title="Login"
-                onPress={() => {
-                  Navigation.push(props.componentId, {
-                    component: {
-                      name: 'com.myApp.PageTwo'
-                    }
-                  });
-                }}
-              />
-              <Button
-                title="Sign Up"
-                color="#f194ff"
-              />
+              <Text style={styles.sectionTitle}>Page 2 Lmao</Text>
             </View>
           </View>
         </ScrollView>
@@ -103,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default PageTwo;

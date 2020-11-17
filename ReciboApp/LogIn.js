@@ -31,7 +31,7 @@ export default class LogIn extends React.Component {
         <TouchableOpacity style={styles.loginBtn} onPress={() => {
                   Navigation.push(this.props.componentId, {
                     component: {
-                      name: 'com.Recibo.PageTwo'
+                      name: 'com.Recibo.Activity'
                     }
                   });
                 }}>

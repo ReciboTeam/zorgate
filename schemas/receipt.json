@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Receipt",
+  "type": "object",
+  "properties": {
+    "storeName": {
+      "type": "string",
+      "description": "The store's name"
+    },
+    "dateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The time of the receipt transaction"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "itemName": {
+            "type": "string",
+            "description": "Short description of the item."
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "The amount of this item."
+          },
+          "price": {
+            "type": "number",
+            "description": "The price for one of these."
+          }
+        }
+      },
+      "description": "The lines on the receipt."
+    },
+    "total": {
+      "type": "number"
+    }
+  }
+}

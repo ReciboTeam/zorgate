@@ -36,6 +36,10 @@
     "total": {
       "type": "number",
       "description": "The grand total of the receipt."
+    },
+    "footer": {
+      "type": "string",
+      "description": "Footer text supplied by the merchant."
     }
   }
 }

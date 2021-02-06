@@ -40,7 +40,7 @@ export default class App extends Component {
           <Item style={styles.inputBoxStyle}>
             <Icon name="ios-search" />
             <Input
-              selectionColor="#e86fca"
+              selectionColor="#f194ff"
               placeholder="Search here..."
               onChangeText={text => this.searchUser(text)}
             />
@@ -75,6 +75,6 @@ const styles = StyleSheet.create({
     height:"65%",
   },
   inputText: {
-    color:"#e86fca",
+    color:"#f194ff",
   }
 });

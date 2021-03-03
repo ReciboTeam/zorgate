@@ -36,17 +36,69 @@ export default class RegisterPage extends React.Component {
  signUpUser = (email, password, rePassword) => {
     try {
       if (this.state.password <= 6) {
-        alert('Password must be more than 6 characters.')
+        Navigation.showOverlay({
+            component: {
+                name: 'com.Recibo.Alert',
+                options: {
+                    layout: {
+                          componentBackgroundColor: 'transparent',
+                        },
+                    overlay: {
+                      interceptTouchOutside: true
+                    },
+                  },
+                  passProps: {
+                    title: "Invalid Password.",
+                    message: "Password should be more than five character",
+                  }
+            }
+        });
         return;
       }
       else if (this.state.password != this.state.rePassword) {
-          alert('Passwords do not match.')
+        Navigation.showOverlay({
+            component: {
+                name: 'com.Recibo.Alert',
+                options: {
+                    layout: {
+                          componentBackgroundColor: 'transparent',
+                        },
+                    overlay: {
+                      interceptTouchOutside: true
+                    },
+                  },
+                  passProps: {
+                    title: "Passwords do not match",
+                    message: "Enter the correct passwords.",
+                  }
+            }
+        });
           return;
       }
       firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => Navigation.pop(this.props.componentId))
+      .catch(error =>  {
+        Navigation.showOverlay({
+            component: {
+                name: 'com.Recibo.Alert',
+                options: {
+                    layout: {
+                          componentBackgroundColor: 'transparent',
+                        },
+                    overlay: {
+                      interceptTouchOutside: true
+                    },
+                  },
+                  passProps: {
+                    title: "Error",
+                    message: error.toString(),
+                  }
+            }
+        });
+      });
     }
     catch (er) {
-      console.log(er.toString())
+      console.log(er.toString());
     }
   }
   render(){

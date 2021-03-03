@@ -27,13 +27,31 @@ export default class LogIn extends React.Component {
   loginUser = (email, password) => {
     try {
       user = firebase.auth().signInWithEmailAndPassword(email,password)
-      .then((user)=> {console.log(user)})
+      .then((user)=> {
+        Navigation.push(this.props.componentId, {
+            component: {
+                name: 'com.Recibo.PageTwo'
+            }
+        });
+      })
       .catch(error =>{
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
+        Navigation.showOverlay({
+            component: {
+                name: 'com.Recibo.Alert',
+                options: {
+                    layout: {
+                          componentBackgroundColor: 'transparent',
+                        },
+                    overlay: {
+                      interceptTouchOutside: true
+                    },
+                  },
+                  passProps: {
+                    title: "The email or password do not match.",
+                    message: "Enter the correct email or password.",
+                  }
+            }
+        });
       });
     }
     catch (er) {
@@ -61,33 +79,6 @@ export default class LogIn extends React.Component {
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={() => {
             this.loginUser(email,password);
-            var user = firebase.auth().currentUser;
-            if(user){
-                Navigation.push(this.props.componentId, {
-                    component: {
-                        name: 'com.Recibo.PageTwo'
-                    }
-                    });
-            }
-            else {
-                Navigation.showOverlay({
-                    component: {
-                        name: 'com.Recibo.Alert',
-                        options: {
-                            layout: {
-                                  componentBackgroundColor: 'transparent',
-                                },
-                            overlay: {
-                              interceptTouchOutside: true
-                            },
-                          },
-                          passProps: {
-                            title: "The email or password do not match.",
-                            message: "Enter the correct email or password.",
-                          }
-                    }
-                });
-            }
         }}>
           <Text style={styles.loginText}>Log In</Text>
         </TouchableOpacity>

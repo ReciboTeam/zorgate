@@ -54,21 +54,21 @@ export default class RegisterPage extends React.Component {
             selectionColor={'#e86fca'}
             onChangeText={text => this.setState({rePassword:text})}/>
         </View>
-        <TouchableOpacity style={styles.loginBtn}>
-          <Text style={styles.btnText} onPress={() => {
+        <TouchableOpacity style={styles.loginBtn} onPress={() => {
                   Navigation.push(this.props.componentId, {
                     component: {
                       name: 'com.Recibo.PageTwo'
                     }
                   });
                 }}>
+          <Text style={styles.btnText}>
             Register
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.cancelBtn}>
-          <Text style={styles.btnText} onPress={() => {
+        <TouchableOpacity style={styles.cancelBtn} onPress={() => {
                   Navigation.pop(this.props.componentId);
                 }}>
+          <Text style={styles.btnText}>
             Cancel
           </Text>
         </TouchableOpacity>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#333966',
+    backgroundColor: 'white',
   },
   appName: {
     fontWeight:"bold",
@@ -90,22 +90,24 @@ const styles = StyleSheet.create({
     color:"#e86fca",
     marginBottom:40
   },
-  inputView: {
+  inputView:{
     width:"80%",
-    backgroundColor:"#465881",
+    borderWidth: 2,
+    borderColor: "grey",
+    borderStyle: "solid",
     borderRadius:25,
     height:50,
     marginBottom:20,
     justifyContent:"center",
     padding:20
   },
-  inputText: {
+  inputText:{
     height:50,
-    color:"#e6e6fa",
+    color:"grey"
   },
   loginBtn: {
     width:"80%",
-    backgroundColor:"#e86fca",
+    backgroundColor:"#e01b84",
     borderRadius:25,
     height:50,
     alignItems:"center",

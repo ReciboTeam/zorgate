@@ -10,6 +10,7 @@ import PageTwo from './PageTwo';
 import LogIn from './LogIn';
 import RegisterPage from './RegisterPage';
 
+
 Navigation.registerComponent('com.Recibo.LogIn', () => LogIn);
 Navigation.registerComponent('com.Recibo.RegisterPage', () => RegisterPage);
 Navigation.registerComponent('com.Recibo.PageTwo', () => PageTwo);

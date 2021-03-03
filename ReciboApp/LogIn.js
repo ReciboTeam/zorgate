@@ -3,14 +3,45 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 
 import { Navigation } from 'react-native-navigation';
 
-import { Alert } from './Alert'
+import * as firebase from 'firebase'
 
+const firebaseConfig = {
+  apiKey: "AIzaSyAi9nwlRo8BWVO2NherGDsWfHWvoGBdXUU",
+  authDomain: "recibo-fdb05.firebaseapp.com",
+  databaseURL: "https://recibo-fdb05-default-rtdb.firebaseio.com",
+  projectId: "recibo-fdb05",
+  storageBucket: "",
+}
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+ }else {
+    firebase.app(); // if already initialized, use that one
+ }
+ 
 export default class LogIn extends React.Component {
   state={
     email:"",
-    password:""
+    password:"",
+  }
+  loginUser = (email, password) => {
+    try {
+      user = firebase.auth().signInWithEmailAndPassword(email,password)
+      .then((user)=> {console.log(user)})
+      .catch(error =>{
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+      });
+    }
+    catch (er) {
+      console.log(er.toString())
+    }
   }
   render() {
+    const { email, password } = this.state
     return (
       <View style={styles.container}>
         <Text style={styles.logo}>RECIBO</Text>
@@ -29,12 +60,35 @@ export default class LogIn extends React.Component {
             onChangeText={text => this.setState({password:text})}/>
         </View>
         <TouchableOpacity style={styles.loginBtn} onPress={() => {
-                  Navigation.push(this.props.componentId, {
+            this.loginUser(email,password);
+            var user = firebase.auth().currentUser;
+            if(user){
+                Navigation.push(this.props.componentId, {
                     component: {
-                      name: 'com.Recibo.PageTwo'
+                        name: 'com.Recibo.PageTwo'
                     }
-                  });
-                }}>
+                    });
+            }
+            else {
+                Navigation.showOverlay({
+                    component: {
+                        name: 'com.Recibo.Alert',
+                        options: {
+                            layout: {
+                                  componentBackgroundColor: 'transparent',
+                                },
+                            overlay: {
+                              interceptTouchOutside: true
+                            },
+                          },
+                          passProps: {
+                            title: "The email or password do not match.",
+                            message: "Enter the correct email or password.",
+                          }
+                    }
+                });
+            }
+        }}>
           <Text style={styles.loginText}>Log In</Text>
         </TouchableOpacity>
         <TouchableOpacity>

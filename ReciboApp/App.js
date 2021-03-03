@@ -17,6 +17,7 @@ import {
   StatusBar,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage'
 import { Navigation } from 'react-native-navigation';
 
 import {

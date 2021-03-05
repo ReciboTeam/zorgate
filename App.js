@@ -24,7 +24,7 @@ class App extends React.Component {
   signupUser = (email, password) => {
     try {
       if (this.state.password < 6) {
-        alert('Password harus lebih dari 6')
+        alert('Password must be at least 6 characters')
         return
       }
       firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -37,7 +37,7 @@ class App extends React.Component {
     try {
       firebase.auth().signInWithEmailAndPassword(email,password)
       .then((user)=>console.log(user))
-      .catch(er=>alert('pasword atau email salah'))
+      .catch(er=>alert('error'))
     }
     catch (er) {
       console.log(er.toString())

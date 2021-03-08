@@ -84,29 +84,6 @@ export default class LogIn extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity>
           <Text style={styles.forgot} onPress={() => {
-            Navigation.showOverlay({
-              component: {
-                name: 'com.Recibo.Alert',
-                options: {
-                  layout: {
-                        componentBackgroundColor: 'transparent',
-                      },
-                  overlay: {
-                    interceptTouchOutside: true
-                  },
-                },
-                passProps: {
-                  title: "Oof...",
-                  message: "Oh well. ¯\\_(ツ)_/¯"
-                }
-              },
-            });
-          }}>
-          Forgot Password?
-        </Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.forgot} onPress={() => {
                   Navigation.push(this.props.componentId, {
                     component: {
                       name: 'com.Recibo.RegisterPage'
@@ -169,5 +146,8 @@ const styles = StyleSheet.create({
     color:"white",
     fontSize: 15,
     fontWeight:"bold"
+  },
+  image:{
+      alignItems:"center",
   }
 });

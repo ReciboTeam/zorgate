@@ -105,7 +105,7 @@ export default class RegisterPage extends React.Component {
     const { email, password, rePassword } = this.state
     return (
       <View style={styles.container}>
-        <Text style={styles.appName}>Recibo</Text>
+        <Text style={styles.logo}>Recibo</Text>
         <View style={styles.inputView} >
           <TextInput
             style={styles.inputText}
@@ -158,10 +158,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
   },
-  appName: {
+  logo:{
     fontWeight:"bold",
     fontSize:50,
-    color:"#e86fca",
+    color:"#e01b84",
     marginBottom:40
   },
   inputView:{

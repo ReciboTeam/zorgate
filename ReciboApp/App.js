@@ -18,8 +18,7 @@ import {
   LogBox
 } from 'react-native';
 
-LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
-import AsyncStorage from '@react-native-community/async-storage'
+
 import { Navigation } from 'react-native-navigation';
 
 import {

@@ -1,0 +1,62 @@
+[
+    {
+        "name": "ZARA",
+        "address": "$25.99",
+        "image": "https://i.kym-cdn.com/photos/images/original/000/644/058/f30.jpg"
+    },
+    {
+        "name": "Nike",
+        "address": "$48.88",
+        "image": "https://idigitalcitizen.files.wordpress.com/2009/08/snoopy-woodstock-sq.jpg"
+    },
+    {
+        "name": "Walmart",
+        "address": "$24.36",
+        "image": "https://i.pinimg.com/originals/03/e8/86/03e8868b1688f5ff4faf17603d618680.jpg"
+    },
+    {
+        "name": "Target",
+        "address": "$32.78",
+        "image": "https://avatars3.githubusercontent.com/u/37296322?s=460&u=892f0f1ed27b1b314e4cc795350a242efdd69259&v=4"
+    },
+    {
+        "name": "H&M",
+        "address": "$41.65",
+        "image": "https://i.pinimg.com/originals/03/15/1b/03151bd68e465f37bb5c20a10c8c34aa.jpg"
+    },
+    {
+        "name": "CVS",
+        "address": "$18.06",
+        "image": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/61c280f0-6c35-4f2b-9ffb-f2a71f1c651e/db3ymu9-9cbcc3f3-9888-4769-880d-728c1fdc34cc.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3sicGF0aCI6IlwvZlwvNjFjMjgwZjAtNmMzNS00ZjJiLTlmZmItZjJhNzFmMWM2NTFlXC9kYjN5bXU5LTljYmNjM2YzLTk4ODgtNDc2OS04ODBkLTcyOGMxZmRjMzRjYy5wbmcifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6ZmlsZS5kb3dubG9hZCJdfQ.H9B830XJnAi5wGDva4i4fXjMiPtQDDKuT2eAneTO6Xw"
+    },
+    {
+        "name": "Whole Foods",
+        "address": "$21.65",
+        "image": "https://lh3.googleusercontent.com/proxy/br3JL-Q_xWCVJiyV409HMALSZktEyrHTCcc6E39jEu-akPqPBqzPiUYivq33bzB_en8qEAw0HhR3X_9B0-x4SHEzwXwWf2EBEkJKVZvnA5-I"
+    },
+    {
+        "name": "Ralph's",
+        "address": "$28.50",
+        "image": "https://avatars3.githubusercontent.com/u/37296322?s=460&u=892f0f1ed27b1b314e4cc795350a242efdd69259&v=4"
+    },
+    {
+        "name": "Best Buy",
+        "address": "$98.62",
+        "image": "https://www.netclipart.com/pp/m/277-2778354_woodstock-snoopy-png.png"
+    },
+    {
+        "name": "Forever 21",
+        "address": "$32.50",
+        "image": "https://avatars3.githubusercontent.com/u/37296322?s=460&u=892f0f1ed27b1b314e4cc795350a242efdd69259&v=4"
+    },
+    {
+        "name": "Macy's",
+        "address": "$120.35",
+        "image": "https://i.pinimg.com/originals/03/15/1b/03151bd68e465f37bb5c20a10c8c34aa.jpg"
+    },
+    {
+        "name": "Nordstrom",
+        "address": "$55.66",
+        "image": "https://i.pinimg.com/originals/74/fa/c9/74fac91313ecce4f1db74d31b1ff78d1.png"
+    }
+]

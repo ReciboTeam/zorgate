@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, LogBox } from 'react-native';
 
 import { Navigation } from 'react-native-navigation';
-
+LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
+import AsyncStorage from '@react-native-community/async-storage'
 import * as firebase from 'firebase'
 
 const firebaseConfig = {
@@ -30,7 +31,7 @@ export default class LogIn extends React.Component {
       .then((user)=> {
         Navigation.push(this.props.componentId, {
             component: {
-                name: 'com.Recibo.PageTwo'
+                name: 'com.Recibo.HomeScreen'
             }
         });
       })

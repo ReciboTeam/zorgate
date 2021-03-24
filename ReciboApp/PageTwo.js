@@ -5,87 +5,77 @@
  * @format
  * @flow strict-local
  */
+'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
+
 import {
-  Button,
-  SafeAreaView,
+  AppRegistry,
   StyleSheet,
-  ScrollView,
-  View,
   Text,
-  StatusBar,
+  TouchableOpacity,
+  Linking,
+  Alert
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera } from 'react-native-camera';
 
-import { Navigation } from 'react-native-navigation';
+export default class PageTwo extends React.Component {
+  onSuccess = e => {
+    Linking.openURL(e.data).catch(err =>
+      console.error('An error occured', err)
+    );
+  };
 
-const PageTwo: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Page 2 Lmao</Text>
-            </View>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+  createTwoButtonAlert = () =>
+  Alert.alert(
+    "QR Code Scanner",
+    "Position your camera to capture the QR code.",
+    [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel"
+      },
+      { text: "OK", onPress: () => console.log("OK Pressed") }
+    ],
+    { cancelable: false }
   );
-};
+
+  render() {
+    return (
+        this.createTwoButtonAlert(),
+      <QRCodeScanner
+        onRead={this.onSuccess}
+        flashMode={RNCamera.Constants.FlashMode.torch}
+      />
+    );
+  }
+}
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
+container: {
+    flex: 1,
+    justifyContent: "space-around",
+    alignItems: "center"
+    },
+  centerText: {
+    flex: 1,
     fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
+    padding: 32,
+    color: '#777'
   },
-  loginButton: {
-    color: '#f194ff'
+  textBold: {
+    fontWeight: '500',
+    color: '#000'
   },
-  highlight: {
-    fontWeight: '700',
+  buttonText: {
+    fontSize: 21,
+    color: 'rgb(0,122,255)'
   },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+  buttonTouchable: {
+    padding: 16
+  }
 });
 
-export default PageTwo;

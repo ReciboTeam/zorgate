@@ -15,7 +15,9 @@ import {
   View,
   Text,
   StatusBar,
+  LogBox
 } from 'react-native';
+
 
 import { Navigation } from 'react-native-navigation';
 

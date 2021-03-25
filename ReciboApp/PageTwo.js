@@ -8,7 +8,6 @@
 'use strict';
 
 import React, { Component } from 'react';
-
 import {
   AppRegistry,
   StyleSheet,
@@ -17,15 +16,46 @@ import {
   Linking,
   Alert
 } from 'react-native';
-
-import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
+import { Navigation } from 'react-native-navigation';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+
 
 export default class PageTwo extends React.Component {
+  showReceipt = (receipt) => {
+    Navigation.showOverlay({
+      component: {
+          name: 'com.Recibo.Alert',
+          options: {
+              layout: {
+                    componentBackgroundColor: 'transparent',
+                  },
+              overlay: {
+                interceptTouchOutside: true
+              },
+            },
+            passProps: {
+              title: "Receipt",
+              message: `${JSON.stringify(receipt)}`,
+            }
+      }
+    });
+  }
+
   onSuccess = e => {
-    Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err)
-    );
+    const documentId = e.data;
+
+    const url = `https://us-central1-recibo-test-mtn.cloudfunctions.net/getReceiptUNSAFE?documentId=${documentId}`
+    console.log(url);
+    fetch(url, {
+      method: 'GET',
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      this.showReceipt(json);
+    })
+    .catch((error) => console.error(error));
+
   };
 
   createTwoButtonAlert = () =>
@@ -78,4 +108,3 @@ container: {
     padding: 16
   }
 });
-

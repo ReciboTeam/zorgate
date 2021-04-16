@@ -7,6 +7,9 @@
  */
 'use strict';
 
+import * as firebase from 'firebase';
+require("firebase/functions");  // Required for side-effects
+
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -45,17 +48,16 @@ export default class PageTwo extends React.Component {
   onSuccess = e => {
     const documentId = e.data;
 
-    const url = `https://us-central1-recibo-test-mtn.cloudfunctions.net/getReceiptUNSAFE?documentId=${documentId}`
-    console.log(url);
-    fetch(url, {
-      method: 'GET',
-    })
-    .then((response) => response.json())
-    .then((json) => {
-      this.showReceipt(json);
-    })
-    .catch((error) => console.error(error));
+    const functions = firebase.functions();
+    console.log(functions);
+    const getReceiptUNSAFE = functions.httpsCallable('registerReceipt');
 
+    getReceiptUNSAFE({documentId: documentId})
+      .then((result) => {
+        console.log(result);
+        this.showReceipt(result.data);
+      })
+      .catch((error) => console.error("receipt error", error.code, error.message, error.details));
   };
 
   createTwoButtonAlert = () =>

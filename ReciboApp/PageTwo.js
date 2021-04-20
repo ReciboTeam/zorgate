@@ -50,9 +50,9 @@ export default class PageTwo extends React.Component {
 
     const functions = firebase.functions();
     console.log(functions);
-    const getReceiptUNSAFE = functions.httpsCallable('registerReceipt');
+    const getReceipt = functions.httpsCallable('registerReceipt');
 
-    getReceiptUNSAFE({documentId: documentId})
+    getReceipt({documentId: documentId})
       .then((result) => {
         console.log(result);
         this.showReceipt(result.data);

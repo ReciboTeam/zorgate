@@ -20,62 +20,6 @@ if (!firebase.apps.length) {
 
 const db = firestore();
 
-const data = [
-    {
-        "storeName": "Target",
-        "dateTime": "2021-01-30T23:30:11.040Z",
-        "entries": [
-            {
-                "itemName": "Socks",
-                "quantity": 2,
-                "price": 3.50
-            },
-            {
-                "itemName": "Cup",
-                "quantity": 1,
-                "price": 10.99
-            }
-        ],
-        "total": 17.99,
-        "footer": "K Thx Bye"
-    },
-    {
-        "storeName": "Walmart",
-        "dateTime": "2021-06-30T23:30:11.040Z",
-        "entries": [
-            {
-                "itemName": "Socks",
-                "quantity": 2,
-                "price": 3.50
-            },
-            {
-                "itemName": "Cup",
-                "quantity": 1,
-                "price": 10.99
-            }
-        ],
-        "total": 17.99,
-        "footer": "K Thx Bye"
-    },
-    {
-        "storeName": "Ross",
-        "dateTime": "2021-04-30T23:30:11.040Z",
-        "entries": [
-            {
-                "itemName": "Socks",
-                "quantity": 2,
-                "price": 3.50
-            },
-            {
-                "itemName": "Cup",
-                "quantity": 1,
-                "price": 10.99
-            }
-        ],
-        "total": 17.99,
-        "footer": "K Thx Bye"
-    },
-];
 
 
 export default class App extends Component {
@@ -261,12 +205,6 @@ export default class App extends Component {
         onEndReachedThreshold={0.1}
         // Refreshing (Set To True When End Reached)
         refreshing={this.state.refreshing}
-        refreshControl={
-            <RefreshControl
-             refreshing={this.state.refreshing}
-             onRefresh={this._handleRefresh}
-            />
-          }
       />
     </View>
     );

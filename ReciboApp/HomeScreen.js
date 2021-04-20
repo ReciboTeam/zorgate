@@ -9,6 +9,7 @@
 import React from 'react';
 import FriendList from './FriendList';
 import PageTwo from './PageTwo';
+import ReceiptsDisplay from './ReceiptsDisplay'
 import {
   SafeAreaView,
   StyleSheet,
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
 const TabNavigator = createMaterialBottomTabNavigator(
   {
     Home: {
-      screen: HomeScreen,
+      screen: ReceiptsDisplay,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <View>
@@ -88,10 +89,7 @@ const TabNavigator = createMaterialBottomTabNavigator(
         barStyle: { backgroundColor: '#FF1493'},
       }
     },
-    
 
-   
-  
   },
   {
     initialRouteName: 'Home',

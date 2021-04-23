@@ -1,183 +1,221 @@
 import React, { Component } from "react";
-import { FlatList, Text, StyleSheet, View, ActivityIndicator } from "react-native";
+import { FlatList,  StyleSheet, View, ActivityIndicator, StatusBar } from "react-native";
 import { Card } from "react-native-paper";
+import {
+  Container,
+  Header,
+  Content,
+  Left,
+  Right,
+  Body,
+  Button,
+  Icon,
+  Text,
+  ListItem,
+  Thumbnail,
+  Item,
+  Input,
+  Footer,
+  Segment,
+  TouchableOpacity,
+} from 'native-base';
+
+
 import firebase from '@react-native-firebase/app'
 import firestore from '@react-native-firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAi9nwlRo8BWVO2NherGDsWfHWvoGBdXUU",
-    authDomain: "recibo-fdb05.firebaseapp.com",
-    databaseURL: "https://recibo-fdb05-default-rtdb.firebaseio.com",
-    projectId: "recibo-fdb05",
-    storageBucket: ""
-  }  
+  apiKey: "AIzaSyAi9nwlRo8BWVO2NherGDsWfHWvoGBdXUU",
+  authDomain: "recibo-fdb05.firebaseapp.com",
+  databaseURL: "https://recibo-fdb05-default-rtdb.firebaseio.com",
+  projectId: "recibo-fdb05",
+  storageBucket: ""
+}
+
+// import firebaseConfig from "./firebaseConfig.js";
 
 if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
- }else {
-    firebase.app(); // if already initialized, use that one
- }
+  firebase.initializeApp(firebaseConfig);
+}else {
+  firebase.app(); // if already initialized, use that one
+}
 
 const db = firestore();
 
 const data = [
-    {
-        "storeName": "Target",
-        "dateTime": "2021-01-30T23:30:11.040Z",
-        "entries": [
-            {
-                "itemName": "Socks",
-                "quantity": 2,
-                "price": 3.50
-            },
-            {
-                "itemName": "Cup",
-                "quantity": 1,
-                "price": 10.99
-            }
-        ],
-        "total": 17.99,
-        "footer": "K Thx Bye"
-    },
-    {
-        "storeName": "Walmart",
-        "dateTime": "2021-06-30T23:30:11.040Z",
-        "entries": [
-            {
-                "itemName": "Socks",
-                "quantity": 2,
-                "price": 3.50
-            },
-            {
-                "itemName": "Cup",
-                "quantity": 1,
-                "price": 10.99
-            }
-        ],
-        "total": 17.99,
-        "footer": "K Thx Bye"
-    },
-    {
-        "storeName": "Ross",
-        "dateTime": "2021-04-30T23:30:11.040Z",
-        "entries": [
-            {
-                "itemName": "Socks",
-                "quantity": 2,
-                "price": 3.50
-            },
-            {
-                "itemName": "Cup",
-                "quantity": 1,
-                "price": 10.99
-            }
-        ],
-        "total": 17.99,
-        "footer": "K Thx Bye"
-    },
+  {
+    "storeName": "Target",
+    "dateTime": "2021-01-30T23:30:11.040Z",
+    "entries": [
+      {
+        "itemName": "Socks",
+        "quantity": 2,
+        "price": 3.50
+      },
+      {
+        "itemName": "Cup",
+        "quantity": 1,
+        "price": 10.99
+      }
+    ],
+    "total": 17.99,
+    "footer": "K Thx Bye"
+  },
 ];
 
 
 export default class App extends Component {
     constructor(props) {
-        super(props);
-        this.state = {
-          data: [],
-          limit: 10,
-          lastVisible: null,
-          loading: false,
-          refreshing: false,
-        };
+      super(props);
+      this.state = {
+        data: [],
+        allData: [],
+        limit: 10,
+        lastVisible: null,
+        loading: false,
+        refreshing: false,
+        selected : 0,
+      };
+    }
+
+    sortListByName() {
+      //Sort storeName by ascending order
+      if (this.state.selected != 1){
+        this.state.data.sort((a, b) => (a.storeName > b.storeName) ? 1 : -1)
       }
-        // Component Did Mount
+      else {
+        this.state.data.sort((a, b) => (b.storeName > a.storeName) ? 1 : -1)
+      }
+      this.setState(previousState => (
+        { data: previousState.data }
+      ))
+    };
+
+    sortListByPrice() {
+      //Sort total price by ascending order
+      if (this.state.selected != 3){
+        this.state.data.sort(function(obj1, obj2) {
+          // Ascending: name less than the previous
+          return obj1.total - obj2.total;
+        });
+      }
+      else {
+        this.state.data.sort(function(obj1, obj2) {
+          // Ascending: name less than the previous
+          return obj2.total - obj1.total;
+        });
+      }
+
+      this.setState(previousState => (
+        { data: previousState.data }
+      ))
+    };
+
+    sortListByDate() {
+      //Sort purcahse date by ascending order
+      if (this.state.selected != 2){
+        this.state.data.sort((a, b) => (a.dateTime > b.dateTime) ? 1 : -1)
+      }
+      else {
+        this.state.data.sort((a, b) => (b.dateTime > a.dateTime) ? 1 : -1)
+      }
+
+      this.setState(previousState => (
+        { data: previousState.data }
+      ))
+    };
+      
+    // Component Did Mount
     componentDidMount = () => {
-        try {
-            // Cloud Firestore: Initial Query
-            this.retrieveData();
-        }
-        catch (error) {
-            console.log(error);
-        }
+      try {
+        // Cloud Firestore: Initial Query
+        this.retrieveData();
+      }
+      catch (error) {
+        console.log(error);
+      }
     };
     // Retrieve Data
     retrieveData = async () => {
-        try {
-          // Set State: Loading
-          this.setState({
-            loading: true,
-          });
-          console.log('Retrieving Data');
-          // Cloud Firestore: Query
-          let initialQuery = await db.collection('receipts')
-            .orderBy("dateTime", "desc")
-            .limit(10)
-            
-            
-          // Cloud Firestore: Query Snapshot
-          let documentSnapshots = await initialQuery
-          .get()
-          .catch(error => console.log(error));
-
-          if(documentSnapshots.empty) {
-              console.log("No Documents.");
-          }
-          console.log(documentSnapshots);
-          // Cloud Firestore: Document Data
-          let documentData = documentSnapshots.docs.map(document => document.data());
-          console.log(documentData);
+      try {
+        // Set State: Loading
+        this.setState({
+          loading: true,
+        });
+        console.log('Retrieving Data');
+        // Cloud Firestore: Query
+        let initialQuery = await db.collection('receipts')
+          .orderBy("dateTime", "desc")
+          .limit(10)
           
-          // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
-          //let lastVisible = documentData[documentData.length - 1];
-          let lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
-          // Set State
-          this.setState({
-            data: documentData,
-            lastVisible: lastVisible,
-            loading: false,
-          });
-        }
-        catch (error) {
-          console.log(error);
-        }
-      };
-    
-      retrieveMore = async () => {
-        try {
-          // Set State: Refreshing
-          this.setState({
-            refreshing: true,
-          });
-          console.log('Retrieving additional Data');
-          console.log(this.state.lastVisible.data().dateTime);
-          let lastDateTime = this.state.lastVisible.data().dateTime;
-          // Cloud Firestore: Query (Additional Query)
-          let additionalQuery = await db.collection('receipts')
-            .orderBy("dateTime", "desc")
-            //.startAfter(this.state.lastVisible.data[dateTime])
-            .where("dateTime", "<", lastDateTime)
-            .limit(this.state.limit)
+          
+        // Cloud Firestore: Query Snapshot
+        let documentSnapshots = await initialQuery
+        .get()
+        .catch(error => console.log(error));
 
-          console.log("Query done");
-          // Cloud Firestore: Query Snapshot
-          let documentSnapshots = await additionalQuery.get().catch(error => console.log(error));
-          // Cloud Firestore: Document Data
-          console.log(documentSnapshots);
-          let documentData = documentSnapshots.docs.map(document => document.data());
-          // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
-          let lastVisible = documentData[documentData.length - 1];
-          // Set State
-          console.log("set state");
-          this.setState({
-            data: [...this.state.data, ...documentData],
-            lastVisible: lastVisible,
-            refreshing: false,
-          });
+        if(documentSnapshots.empty) {
+            console.log("No Documents.");
         }
-        catch (error) {
-          console.log(error);
-        }
-      };
-      // Render Header
+        console.log(documentSnapshots);
+        // Cloud Firestore: Document Data
+        let documentData = documentSnapshots.docs.map(document => document.data());
+        console.log(documentData);
+        
+        // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
+        //let lastVisible = documentData[documentData.length - 1];
+        let lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
+        // Set State
+        this.setState({
+          data: documentData,
+          allData: documentData,
+          lastVisible: lastVisible,
+          loading: false,
+        });
+      }
+      catch (error) {
+        console.log(error);
+      }
+    };
+    
+    retrieveMore = async () => {
+      try {
+        // Set State: Refreshing
+        this.setState({
+          refreshing: true,
+        });
+        console.log('Retrieving additional Data');
+        console.log(this.state.lastVisible.data().dateTime);
+        let lastDateTime = this.state.lastVisible.data().dateTime;
+        // Cloud Firestore: Query (Additional Query)
+        let additionalQuery = await db.collection('receipts')
+          .orderBy("dateTime", "desc")
+          //.startAfter(this.state.lastVisible.data[dateTime])
+          .where("dateTime", "<", lastDateTime)
+          .limit(this.state.limit)
+
+        console.log("Query done");
+        // Cloud Firestore: Query Snapshot
+        let documentSnapshots = await additionalQuery.get().catch(error => console.log(error));
+        // Cloud Firestore: Document Data
+        console.log(documentSnapshots);
+        let documentData = documentSnapshots.docs.map(document => document.data());
+        // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
+        let lastVisible = documentData[documentData.length - 1];
+        // Set State
+        console.log("set state");
+        this.setState({
+          data: [...this.state.data, ...documentData],
+          // allData: [...this.state.data, ...documentData],
+          lastVisible: lastVisible,
+          refreshing: false,
+        });
+      }
+      catch (error) {
+        console.log(error);
+      }
+    };
+    // Render Header
     renderHeader = () => {
         try {
         return (
@@ -205,64 +243,134 @@ export default class App extends Component {
         console.log(error);
         }
     };
-
+  // state = { selected: 1 }
   render() {
     return (
-    <View>
-        
-      <FlatList
-        data={this.state.data}
-        renderItem={({ item }) => {
-          return (
-            <View style={{paddingTop: 20, paddingBottom: 20}}>
+      <Container style={styles.containerStyle}>
+        <Header hasSegment 
+          // androidStatusBarColor="#2c3e50"
+          style={styles.headerStyle}>
+          <StatusBar 
+            barStyle="light-content"
+            backgroundColor="black"/>
+          <Body>
+            <Segment style={styles.headerStyle}>
+              <Button first rounded
+                // style={{width: '35%'}}
+                // style={{
+								// 	backgroundColor: this.state.selected === 1 ? "red" : undefined,
+								// 	borderColor: "red",
+								// }}
+                active={this.state.selected === 1 ? true : false} 
+                style={styles.segmentButton}
+                // onPressIn={() => this.setState({ selected: 1 })}
+                // onPress={() => this.sortListByName()}
+                onPress={() => {
+                  if(this.state.selected===1) {
+                    this.setState({selected: 0,});
+                  }
+                  else{
+                    this.setState({ selected: 1 }); 
+                  }
+                  this.sortListByName();
+                }}
+              >
+                <Text style={styles.buttonText}>Name</Text>
+              </Button>
+              <Button rounded
+                // style={{width: '35%'}}
+                active={this.state.selected === 2 ? true : false} 
+                style={styles.segmentButton} 
+                // onPressIn={() => this.setState({ selected: 2 })}
+                // onPress={() => this.sortListByCat()}
+                onPress={() => {
+                  if(this.state.selected===2) {
+                    this.setState({selected: 0,});
+                  }
+                  else{
+                    this.setState({ selected: 2 }); 
+                  }
+                  this.sortListByDate();
+                }}
+              >
+                <Text style={styles.buttonText}>Date</Text>
+              </Button>
+              <Button last rounded
+                // style={{width: "35%"}}
+                active={this.state.selected === 3 ? true : false}
+                style={styles.segmentButton} 
+                onPress={() => {
+                  if(this.state.selected===3) {
+                    this.setState({selected: 0,});
+                  }
+                  else{
+                    this.setState({ selected: 3 }); 
+                  }
+                  this.sortListByPrice();
+                }}
+              >
+                <Text style={styles.buttonText}>Price</Text>
+              </Button>
+            </Segment>
+          </Body>
+        </Header>
+        <FlatList
+          data={this.state.data}
+          renderItem={({ item }) => {
+            return (
+              <Content style={{paddingTop: 20, paddingBottom: 20}}>
                 <Card style={{marginHorizontal: 25, borderWidth: 0.5, marrginVerticle: 1}}>
-                    <Text style={styles.centerTextBold}>{item.storeName}</Text>
-                    <Text style={styles.time}>{item.dateTime}</Text>
-                    <Text style={{textAlign: "center",paddingTop: 10, paddingBottom: 10}}>*****************************************</Text>
+                  <Text style={styles.centerTextBold}>{item.storeName}</Text>
+                  <Text style={styles.time}>{item.dateTime}</Text>
+                  <Text style={{textAlign: "center",paddingTop: 10, paddingBottom: 10}}>*****************************************</Text>
+
+                  <View style={styles.description}>
+                    <Text style={styles.boldItem}>Items</Text>
+                    <Text style={styles.boldItem}>Unit Price</Text>  
+                  </View>
+                  <FlatList
+                    data={item.entries}
+                    renderItem={({ item }) => {
+                      return(
+                        <View style={styles.description}>
+                          <Text style={styles.item}>{item.quantity} x {item.itemName}</Text>
+                          <Text  style={styles.item}>{item.price}</Text>
+                        </View>
+                      )}}
+                    keyExtractor={(item, index) => index}
+                  />
+
+                    <Text style={{textAlign: "center", paddingTop: 20, paddingBottom: 10}}>===================================</Text>
 
                     <View style={styles.description}>
-                        <Text style={styles.boldItem}>Items</Text>
-                        <Text style={styles.boldItem}>Unit Price</Text>  
+                      <Text style={styles.boldItem}>Total Amount</Text>
+                      <Text style={styles.boldItem}>{item.total}</Text>  
                     </View>
-                    <FlatList
-                        data={item.entries}
-                        renderItem={({ item }) => {
-                            return(
-                                <View style={styles.description}>
-                                    <Text style={styles.item}>{item.quantity} x {item.itemName}</Text>
-                                    <Text  style={styles.item}>{item.price}</Text>
-                                </View>
-                            )}}
-                        keyExtractor={(item, index) => index}
-                        />
-
-                        <Text style={{textAlign: "center", paddingTop: 20, paddingBottom: 10}}>===================================</Text>
-
-                        <View style={styles.description}>
-                            <Text style={styles.boldItem}>Total Amount</Text>
-                            <Text style={styles.boldItem}>{item.total}</Text>  
-                        </View>
-                        <Text style={{textAlign: "center", paddingTop: 10, paddingBottom: 10}}>===================================</Text>
-                        <Text style={styles.centerTextBold}>{item.footer}</Text>
-                        <Text style={{textAlign: "center", paddingTop: 10, paddingBottom: 10}}>===================================</Text>
+                    <Text style={{textAlign: "center", paddingTop: 10, paddingBottom: 10}}>===================================</Text>
+                    <Text style={styles.centerTextBold}>{item.footer}</Text>
+                    <Text style={{textAlign: "center", paddingTop: 10, paddingBottom: 10}}>===================================</Text>
                     
                 </Card>
-            </View>
-
-          );
-        }}
-        keyExtractor={(item, index) => index}
+                  
+              </Content>
+              
+            );
+            
+          }}
+          keyExtractor={(item, index) => index}
+          
+          // Footer (Activity Indicator)
+          ListFooterComponent={this.renderFooter}
+          // On End Reached (Takes a function)
+          onEndReached={this.retrieveMore}
+          // How Close To The End Of List Until Next Data Request Is Made
+          onEndReachedThreshold={0.1}
+          // Refreshing (Set To True When End Reached)
+          refreshing={this.state.refreshing}
+        />
         
-        // Footer (Activity Indicator)
-        ListFooterComponent={this.renderFooter}
-        // On End Reached (Takes a function)
-        onEndReached={this.retrieveMore}
-        // How Close To The End Of List Until Next Data Request Is Made
-        onEndReachedThreshold={0.1}
-        // Refreshing (Set To True When End Reached)
-        refreshing={this.state.refreshing}
-      />
-    </View>
+      </Container>
+    
     );
   }
 }
@@ -302,5 +410,24 @@ const styles = StyleSheet.create({
         borderColor: 'grey',
         backgroundColor: 'white',
     },
-        
+
+    containerStyle: {
+      backgroundColor: 'lightgrey',
+    },
+    headerStyle: {
+      justifyContent:"center",
+      backgroundColor: 'lightgrey',
+      height: 39,
+    },
+    segmentButton: {
+      paddingLeft: 0,
+      paddingRight: 0,
+      width: "30%",
+      justifyContent:'center',
+      borderColor: 'black',
+    },
+    buttonText: {
+      textAlign: "center",
+      color:"black",
+    }
 });

@@ -10,6 +10,7 @@ import React from 'react';
 import FriendList from './FriendList';
 import PageTwo from './PageTwo';
 import ReceiptsDisplay from './ReceiptsDisplay';
+import SearchPage from './SearchPage';
 import {
   SafeAreaView,
   StyleSheet,
@@ -62,9 +63,9 @@ const TabNavigator = createMaterialBottomTabNavigator(
         ),
       }
     },
- 
+
     Search: {
-      screen: FriendList,
+      screen: SearchPage,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <View>

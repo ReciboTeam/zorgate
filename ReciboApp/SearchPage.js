@@ -30,7 +30,7 @@ const firebaseConfig = {
   databaseURL: "https://recibo-fdb05-default-rtdb.firebaseio.com",
   projectId: "recibo-fdb05",
   storageBucket: ""
-}
+}  
 
 // import firebaseConfig from "./firebaseConfig";
 
@@ -41,27 +41,6 @@ if (!firebase.apps.length) {
 }
 
 const db = firestore();
-
-const data = [
-  {
-    "storeName": "Target",
-    "dateTime": "2021-01-30T23:30:11.040Z",
-    "entries": [
-      {
-        "itemName": "Socks",
-        "quantity": 2,
-        "price": 3.50
-      },
-      {
-        "itemName": "Cup",
-        "quantity": 1,
-        "price": 10.99
-      }
-    ],
-    "total": 17.99,
-    "footer": "K Thx Bye"
-  },
-];
 
 
 export default class App extends Component {
@@ -77,55 +56,15 @@ export default class App extends Component {
         selected : 0,
       };
     }
-
-    sortListByName() {
-      //Sort storeName by ascending order
-      if (this.state.selected != 1){
-        this.state.data.sort((a, b) => (a.storeName > b.storeName) ? 1 : -1)
-      }
-      else {
-        this.state.data.sort((a, b) => (b.storeName > a.storeName) ? 1 : -1)
-      }
-      this.setState(previousState => (
-        { data: previousState.data }
-      ))
-    };
-
-    sortListByPrice() {
-      //Sort total price by ascending order
-      if (this.state.selected != 3){
-        this.state.data.sort(function(obj1, obj2) {
-          // Ascending: name less than the previous
-          return obj1.total - obj2.total;
-        });
-      }
-      else {
-        this.state.data.sort(function(obj1, obj2) {
-          // Ascending: name less than the previous
-          return obj2.total - obj1.total;
-        });
-      }
-
-      this.setState(previousState => (
-        { data: previousState.data }
-      ))
-    };
-
-    sortListByDate() {
-      //Sort purcahse date by ascending order
-      if (this.state.selected != 2){
-        this.state.data.sort((a, b) => (a.dateTime > b.dateTime) ? 1 : -1)
-      }
-      else {
-        this.state.data.sort((a, b) => (b.dateTime > a.dateTime) ? 1 : -1)
-      }
-
-      this.setState(previousState => (
-        { data: previousState.data }
-      ))
+    searchName = text => {
+      this.setState({
+        data: this.state.allData.filter(i =>
+          i.storeName.toLowerCase().includes(text.toLowerCase()),
+        ),
+      },);
     };
       
-    // Component Did Mount
+        // Component Did Mount
     componentDidMount = () => {
       try {
         // Cloud Firestore: Initial Query
@@ -247,72 +186,25 @@ export default class App extends Component {
   render() {
     return (
       <Container style={styles.containerStyle}>
-        <Header hasSegment 
+        <Header hasSegment searchBar rounded 
           // androidStatusBarColor="#2c3e50"
-          style={styles.headerStyle}>
+          style={styles.searchBarStyle}>
           <StatusBar 
             barStyle="light-content"
             backgroundColor="black"/>
-          <Body>
-            <Segment style={styles.headerStyle}>
-              <Button first rounded
-                // style={{width: '35%'}}
-                // style={{
-								// 	backgroundColor: this.state.selected === 1 ? "red" : undefined,
-								// 	borderColor: "red",
-								// }}
-                active={this.state.selected === 1 ? true : false} 
-                style={styles.segmentButton}
-                // onPressIn={() => this.setState({ selected: 1 })}
-                // onPress={() => this.sortListByName()}
-                onPress={() => {
-                  if(this.state.selected===1) {
-                    this.setState({selected: 0,});
-                  }
-                  else{
-                    this.setState({ selected: 1 }); 
-                  }
-                  this.sortListByName();
-                }}
-              >
-                <Text style={styles.buttonText}>Name</Text>
-              </Button>
-              <Button rounded
-                // style={{width: '35%'}}
-                active={this.state.selected === 2 ? true : false} 
-                style={styles.segmentButton} 
-                // onPressIn={() => this.setState({ selected: 2 })}
-                // onPress={() => this.sortListByCat()}
-                onPress={() => {
-                  if(this.state.selected===2) {
-                    this.setState({selected: 0,});
-                  }
-                  else{
-                    this.setState({ selected: 2 }); 
-                  }
-                  this.sortListByDate();
-                }}
-              >
-                <Text style={styles.buttonText}>Date</Text>
-              </Button>
-              <Button last rounded
-                // style={{width: "35%"}}
-                active={this.state.selected === 3 ? true : false}
-                style={styles.segmentButton} 
-                onPress={() => {
-                  if(this.state.selected===3) {
-                    this.setState({selected: 0,});
-                  }
-                  else{
-                    this.setState({ selected: 3 }); 
-                  }
-                  this.sortListByPrice();
-                }}
-              >
-                <Text style={styles.buttonText}>Price</Text>
-              </Button>
-            </Segment>
-          </Body>
+          <Item style={styles.inputBoxStyle}>
+            <Icon name="ios-search" />
+            <Input
+              selectionColor="#e86fca"
+              placeholder="Search here..."
+              onChangeText={text => this.searchName(text)}
+              // onChangeText={text => this.searchCat(text)}
+              // onChangeText={text => {
+              //   this.searchName(text);
+              //   this.searchCat(text);
+              // }}
+            />
+          </Item>
         </Header>
         <FlatList
           data={this.state.data}
@@ -414,20 +306,16 @@ const styles = StyleSheet.create({
     containerStyle: {
       backgroundColor: 'lightgrey',
     },
-    headerStyle: {
+    searchBarStyle: {
       justifyContent:"center",
       backgroundColor: 'lightgrey',
-      height: 39,
     },
-    segmentButton: {
-      paddingLeft: 0,
-      paddingRight: 0,
-      width: "30%",
-      justifyContent:'center',
-      borderColor: 'black',
+    inputBoxStyle: {
+      justifyContent:"center",
+      borderRadius:50,
+      height:"65%",
     },
-    buttonText: {
-      textAlign: "center",
-      color:"black",
-    }
+    inputText: {
+      color:"#e86fca",
+    },
 });

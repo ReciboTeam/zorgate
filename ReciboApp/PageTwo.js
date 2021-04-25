@@ -56,6 +56,7 @@ export default class PageTwo extends React.Component {
       .then((result) => {
         console.log(result);
         this.showReceipt(result.data);
+        this._setScanning(false);  // reactivate scanning
       })
       .catch((error) => console.error("receipt error", error.code, error.message, error.details));
   };

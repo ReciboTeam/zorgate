@@ -4,7 +4,8 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, LogBox } from 'rea
 import { Navigation } from 'react-native-navigation';
 LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
 import AsyncStorage from '@react-native-community/async-storage'
-import * as firebase from 'firebase'
+import firebase from '@react-native-firebase/app';
+import auth from '@react-native-firebase/auth';
 
 import firebaseConfig from "./firebaseConfig";
 
@@ -22,7 +23,7 @@ export default class LogIn extends React.Component {
   }
   loginUser = (email, password) => {
     try {
-      user = firebase.auth().signInWithEmailAndPassword(email,password)
+      user = auth().signInWithEmailAndPassword(email,password)
       .then((user)=> {
         Navigation.push(this.props.componentId, {
             component: {

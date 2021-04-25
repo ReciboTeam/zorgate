@@ -1,0 +1,48 @@
+  
+{
+    "storeName": "Walmart",
+    "dateTime": "2021-04-20T14:30:11.040Z",
+    "entries": [
+        {
+            "itemName": "Oral Tootbrush Pro",
+            "quantity": 1,
+            "price": 100.00
+        },
+        {
+            "itemName": "Oral Floss",
+            "quantity": 2,
+            "price": 3.00
+        },
+        {
+            "itemName": "Oral Mouthwash",
+            "quantity": 1,
+            "price": 10.00
+        }
+    ],
+    "total": 116.00,
+    "footer": "Thanks"
+}
+
+{
+    "storeName": "Target",
+    "dateTime": "2021-04-20T14:30:11.040Z",
+    "entries": [
+        {
+            "itemName": "Banana",
+            "quantity": 1,
+            "price": 10.00
+        },
+        {
+            "itemName": "Apple",
+            "quantity": 2,
+            "price": 1.00
+        },
+        {
+            "itemName": "Avocado",
+            "quantity": 1,
+            "price": 1.00
+        }
+    ],
+    "total": 13.00,
+    "footer": "Target is your Target"
+}

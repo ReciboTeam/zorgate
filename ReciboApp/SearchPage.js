@@ -24,15 +24,7 @@ import {
 import firebase from '@react-native-firebase/app'
 import firestore from '@react-native-firebase/firestore';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAi9nwlRo8BWVO2NherGDsWfHWvoGBdXUU",
-  authDomain: "recibo-fdb05.firebaseapp.com",
-  databaseURL: "https://recibo-fdb05-default-rtdb.firebaseio.com",
-  projectId: "recibo-fdb05",
-  storageBucket: ""
-}  
-
-// import firebaseConfig from "./firebaseConfig";
+import firebaseConfig from "./firebaseConfig";
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);

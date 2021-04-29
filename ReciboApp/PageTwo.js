@@ -7,8 +7,10 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import * as firebase from 'firebase';
+require("firebase/functions");  // Required for side-effects
 
+import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
@@ -17,15 +19,45 @@ import {
   Linking,
   Alert
 } from 'react-native';
-
-import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
+import { Navigation } from 'react-native-navigation';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+
 
 export default class PageTwo extends React.Component {
+  showReceipt = (receipt) => {
+    Navigation.showOverlay({
+      component: {
+          name: 'com.Recibo.Alert',
+          options: {
+              layout: {
+                    componentBackgroundColor: 'transparent',
+                  },
+              overlay: {
+                interceptTouchOutside: true
+              },
+            },
+            passProps: {
+              title: "Receipt",
+              message: `${JSON.stringify(receipt)}`,
+            }
+      }
+    });
+  }
+
   onSuccess = e => {
-    Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err)
-    );
+    const documentId = e.data;
+
+    const functions = firebase.functions();
+    console.log(functions);
+    const getReceipt = functions.httpsCallable('registerReceipt');
+
+    getReceipt({documentId: documentId})
+      .then((result) => {
+        console.log(result);
+        this.showReceipt(result.data);
+      })
+      .catch((error) => console.error("receipt error", error.code, error.message, error.details));
   };
 
   createTwoButtonAlert = () =>
@@ -78,4 +110,3 @@ container: {
     padding: 16
   }
 });
-

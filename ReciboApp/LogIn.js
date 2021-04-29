@@ -4,22 +4,18 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, LogBox } from 'rea
 import { Navigation } from 'react-native-navigation';
 LogBox.ignoreLogs(['Warning: Async Storage has been extracted from react-native core']);
 import AsyncStorage from '@react-native-community/async-storage'
-import * as firebase from 'firebase'
+import firebase from '@react-native-firebase/app';
+import auth from '@react-native-firebase/auth';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAi9nwlRo8BWVO2NherGDsWfHWvoGBdXUU",
-  authDomain: "recibo-fdb05.firebaseapp.com",
-  databaseURL: "https://recibo-fdb05-default-rtdb.firebaseio.com",
-  projectId: "recibo-fdb05",
-  storageBucket: "",
-}
+import firebaseConfig from "./firebaseConfig";
 
 if (!firebase.apps.length) {
+    console.log(firebaseConfig)
     firebase.initializeApp(firebaseConfig);
  }else {
     firebase.app(); // if already initialized, use that one
  }
- 
+
 export default class LogIn extends React.Component {
   state={
     email:"",
@@ -27,7 +23,7 @@ export default class LogIn extends React.Component {
   }
   loginUser = (email, password) => {
     try {
-      user = firebase.auth().signInWithEmailAndPassword(email,password)
+      user = auth().signInWithEmailAndPassword(email,password)
       .then((user)=> {
         Navigation.push(this.props.componentId, {
             component: {

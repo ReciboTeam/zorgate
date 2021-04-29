@@ -1,3 +1,6 @@
+android/app/google-services.json
+firebaseConfig.js
+
 # OSX
 #
 .DS_Store

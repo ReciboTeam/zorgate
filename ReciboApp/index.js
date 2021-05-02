@@ -10,8 +10,8 @@ import PageTwo from './PageTwo';
 import LogIn from './LogIn';
 import RegisterPage from './RegisterPage';
 import HomeScreen from "./HomeScreen";
-import ReceiptsDisplay from "./ReceiptsDisplay";
-
+import ReceiptsDisplay from './ReceiptsDisplay';
+import SearchPage from './SearchPage';
 
 Navigation.registerComponent('com.Recibo.LogIn', () => LogIn);
 Navigation.registerComponent('com.Recibo.RegisterPage', () => RegisterPage);

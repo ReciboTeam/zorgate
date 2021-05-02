@@ -168,31 +168,31 @@ export default class App extends Component {
               return;
           }
 
-        // Cloud Firestore: Query
-        let arraySnapshots = await db
-          .collection('users')
-          .doc(currentUser)
-          .get()
-          .catch(error => console.log(error));
-        console.log(arraySnapshots);
-        let receipts = arraySnapshots.get('receipts');
-        console.log('Array: ' , receipts);
+          // Cloud Firestore: Query
+          let arraySnapshots = await db
+            .collection('users')
+            .doc(currentUser)
+            .get()
+            .catch(error => console.log(error));
+          console.log(arraySnapshots);
+          let receipts = arraySnapshots.get('receipts');
+          console.log('Array: ' , receipts);
 
-        let start = (this.state.lastVisible < 5) ? 0 : this.state.lastVisible - 5; // get the start receipt index
-        console.log("receipts slice: ", receipts.slice(start , this.state.lastVisible));
-        
-        let documentData = [];
-          await db.collection('receipts')
-          .where(firebase.firestore.FieldPath.documentId(), 'in', receipts.slice(start, this.state.lastVisible))
-          .get()
-          .then((snapshot) => {
-              documentData = snapshot.docs.map(doc => doc.data());
-           });
+          let start = (this.state.lastVisible < 5) ? 0 : this.state.lastVisible - 5; // get the start receipt index
+          console.log("receipts slice: ", receipts.slice(start , this.state.lastVisible));
+          
+          let documentData = [];
+            await db.collection('receipts')
+            .where(firebase.firestore.FieldPath.documentId(), 'in', receipts.slice(start, this.state.lastVisible))
+            .get()
+            .then((snapshot) => {
+                documentData = snapshot.docs.map(doc => doc.data());
+            });
 
-        if(documentData.empty) {
-            console.log("No document found");
-        }
-        console.log('documentData: ', documentData);
+          if(documentData.empty) {
+              console.log("No document found");
+          }
+          console.log('documentData: ', documentData);
       
           // Set State
           console.log("set state");
@@ -205,7 +205,7 @@ export default class App extends Component {
         catch (error) {
           console.log(error);
         }
-      };
+    };
 
       // Pull to Refresh
     onRefresh() {

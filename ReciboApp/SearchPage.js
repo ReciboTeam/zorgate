@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { FlatList,  StyleSheet, View, ActivityIndicator, StatusBar } from "react-native";
 import { Card } from "react-native-paper";
+import firebase from '@react-native-firebase/app'
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 import {
   Container,
   Header,
@@ -20,9 +23,6 @@ import {
   TouchableOpacity,
 } from 'native-base';
 
-
-import firebase from '@react-native-firebase/app'
-import firestore from '@react-native-firebase/firestore';
 
 import firebaseConfig from "./firebaseConfig";
 
@@ -75,31 +75,51 @@ export default class App extends Component {
         });
         console.log('Retrieving Data');
         // Cloud Firestore: Query
-        let initialQuery = await db.collection('receipts')
-          .orderBy("dateTime", "desc")
-          .limit(10)
-          
-          
-        // Cloud Firestore: Query Snapshot
-        let documentSnapshots = await initialQuery
-        .get()
-        .catch(error => console.log(error));
+        let currentUser = auth().currentUser.uid;
+        console.log('Current user: ', currentUser);
+        let arraySnapshots = await db
+          .collection('users')
+          .doc(currentUser)
+          .get()
+          .catch(error => console.log(error));
+        console.log(arraySnapshots);
+        let receipts = arraySnapshots.get('receipts');
+        console.log('Array: ' , receipts);
 
-        if(documentSnapshots.empty) {
-            console.log("No Documents.");
+        //Get the receipts 5 at a time
+        let documentData = [];
+          await db.collection('receipts')
+          .where(firebase.firestore.FieldPath.documentId(), 'in', receipts.slice(Math.max(receipts.length - 5, 0)))
+          .get()
+          .then((snapshot) => {
+              documentData = snapshot.docs.map(doc => doc.data());
+          });
+
+        if(documentData.empty) {
+            console.log("No document found");
         }
-        console.log(documentSnapshots);
-        // Cloud Firestore: Document Data
-        let documentData = documentSnapshots.docs.map(document => document.data());
         console.log(documentData);
-        
+          
+        let allData = [];
+          await db.collection('receipts')
+          .where(firebase.firestore.FieldPath.documentId(), 'in', receipts)
+          .get()
+          .then((snapshot) => {
+              allData = snapshot.docs.map(doc => doc.data());
+          });
+
+        if(allData.empty) {
+            console.log("No document found");
+        }
+        console.log(allData);
         // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
         //let lastVisible = documentData[documentData.length - 1];
-        let lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
+        // let lastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1]
+        let lastVisible = (receipts.length < 5) ? 0 : receipts.length - 5;
         // Set State
         this.setState({
-          data: documentData,
-          allData: documentData,
+          data: documentData.sort((a, b) => (a.dateTime < b.dateTime) ? 1 : -1),
+          allData: allData.sort((a, b) => (a.dateTime < b.dateTime) ? 1 : -1),
           lastVisible: lastVisible,
           loading: false,
         });
@@ -116,29 +136,43 @@ export default class App extends Component {
           refreshing: true,
         });
         console.log('Retrieving additional Data');
-        console.log(this.state.lastVisible.data().dateTime);
-        let lastDateTime = this.state.lastVisible.data().dateTime;
-        // Cloud Firestore: Query (Additional Query)
-        let additionalQuery = await db.collection('receipts')
-          .orderBy("dateTime", "desc")
-          //.startAfter(this.state.lastVisible.data[dateTime])
-          .where("dateTime", "<", lastDateTime)
-          .limit(this.state.limit)
 
-        console.log("Query done");
-        // Cloud Firestore: Query Snapshot
-        let documentSnapshots = await additionalQuery.get().catch(error => console.log(error));
-        // Cloud Firestore: Document Data
-        console.log(documentSnapshots);
-        let documentData = documentSnapshots.docs.map(document => document.data());
-        // Cloud Firestore: Last Visible Document (Document ID To Start From For Proceeding Queries)
-        let lastVisible = documentData[documentData.length - 1];
+        if (this.state.lastVisible == 0) {
+            console.log('No more receipts');
+            return;
+        }
+
+        // Cloud Firestore: Query
+        let arraySnapshots = await db
+          .collection('users')
+          .doc(currentUser)
+          .get()
+          .catch(error => console.log(error));
+        console.log(arraySnapshots);
+        let receipts = arraySnapshots.get('receipts');
+        console.log('Array: ' , receipts);
+
+        let start = (this.state.lastVisible < 5) ? 0 : this.state.lastVisible - 5; // get the start receipt index
+        console.log("receipts slice: ", receipts.slice(start , this.state.lastVisible));
+        
+        let documentData = [];
+          await db.collection('receipts')
+          .where(firebase.firestore.FieldPath.documentId(), 'in', receipts.slice(start, this.state.lastVisible))
+          .get()
+          .then((snapshot) => {
+              documentData = snapshot.docs.map(doc => doc.data());
+            });
+
+        if(documentData.empty) {
+            console.log("No document found");
+        }
+        console.log('documentData: ', documentData);
+      
         // Set State
         console.log("set state");
         this.setState({
-          data: [...this.state.data, ...documentData],
-          // allData: [...this.state.data, ...documentData],
-          lastVisible: lastVisible,
+          data: [...this.state.data, ...documentData.sort((a, b) => (a.dateTime < b.dateTime) ? 1 : -1)],
+          lastVisible: start,
           refreshing: false,
         });
       }
@@ -146,6 +180,11 @@ export default class App extends Component {
         console.log(error);
       }
     };
+
+    // Pull to Refresh
+    onRefresh() {
+      this.setState({loading: true,},() => {this.retrieveData();});
+    }
     // Render Header
     renderHeader = () => {
         try {
@@ -241,16 +280,16 @@ export default class App extends Component {
             );
             
           }}
-          keyExtractor={(item, index) => index}
-          
+          keyExtractor={(item, index) => index.toString()}
+        
           // Footer (Activity Indicator)
-          ListFooterComponent={this.renderFooter}
-          // On End Reached (Takes a function)
           onEndReached={this.retrieveMore}
           // How Close To The End Of List Until Next Data Request Is Made
           onEndReachedThreshold={0.1}
           // Refreshing (Set To True When End Reached)
-          refreshing={this.state.refreshing}
+
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.loading}
         />
         
       </Container>

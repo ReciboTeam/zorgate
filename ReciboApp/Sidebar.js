@@ -10,9 +10,6 @@ import {createAppContainer} from 'react-navigation';
 import {createDrawerNavigator, DrawerItems} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
 
-import Page1 from './Page1';
-import Page2 from './Page2';
-import Page3 from './Page3';
 import Page4 from './Page4';
 import Page5 from './Page5';
 import HomeScreen from './HomeScreen';
@@ -67,9 +64,9 @@ const DrawerTopView = (props) => (
 const navigations = ({ navigation }) => ({
   headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
   headerStyle: {
-        backgroundColor: '#FF0090',
+        backgroundColor: 'transparent',
   },
-  headerTintColor: '#fff',
+  headerTintColor: 'transparent',
   
 });
 
@@ -134,7 +131,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 0,
     fontWeight: 'bold',
-    color: '#4066E0',
+    color: '#FF0090',
   },
   iconContainer: {
     //marginLeft: 15,

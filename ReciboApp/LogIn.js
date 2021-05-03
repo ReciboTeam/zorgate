@@ -27,7 +27,7 @@ export default class LogIn extends React.Component {
       .then((user)=> {
         Navigation.push(this.props.componentId, {
             component: {
-                name: 'com.Recibo.HomeScreen'
+                name: 'com.Recibo.Sidebar'
             }
         });
       })

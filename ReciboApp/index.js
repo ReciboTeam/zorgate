@@ -11,6 +11,7 @@ import LogIn from './LogIn';
 import RegisterPage from './RegisterPage';
 import HomeScreen from "./HomeScreen";
 import ReceiptsDisplay from "./ReceiptsDisplay";
+import Sidebar from './Sidebar';
 
 
 Navigation.registerComponent('com.Recibo.LogIn', () => LogIn);
@@ -19,6 +20,7 @@ Navigation.registerComponent('com.Recibo.PageTwo', () => PageTwo);
 Navigation.registerComponent('com.Recibo.Alert', () => Alert);
 Navigation.registerComponent('com.Recibo.HomeScreen', () => HomeScreen);
 Navigation.registerComponent('com.Recibo.ReceiptsDisplay', () => ReceiptsDisplay);
+Navigation.registerComponent('com.Recibo.Sidebar', () => Sidebar);
 
 Navigation.events().registerAppLaunchedListener(() => {
    Navigation.setRoot({

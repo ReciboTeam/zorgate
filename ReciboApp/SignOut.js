@@ -1,6 +1,8 @@
 import firebase from '@react-native-firebase/app';
 import auth from '@react-native-firebase/auth';
 import firebaseConfig from "./firebaseConfig";
+import { Navigation } from 'react-native-navigation';
+import {Component} from 'react-native'
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -11,20 +13,18 @@ if (!firebase.apps.length) {
 export default class SignOut extends Component {
     signOut = auth().signOut().then(function() {
         console.log('Signed Out');
-        Navigation.pop(this.props.componentId, {
-            component: {
-                name: 'com.Recibo.Sidebar'
-            }
-        });
+        //Navigation.reset({
+        //    index: 0,
+        //    actions: [NavigationActions.navigate({ routeName: "com.Recibo.LogIn" })],
+        //  });
+        
       }, function(error) {
         console.error('Sign Out Error', error);
     });
     render() {
-        this.signOut();
       return (
-        
         <View>
-            
+            {this.signOut()}
         </View>
       );
     }

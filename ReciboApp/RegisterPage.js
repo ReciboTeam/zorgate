@@ -10,7 +10,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 import { Navigation } from 'react-native-navigation';
 
-import * as firebase from 'firebase'
+import auth from '@react-native-firebase/auth';
+import firebase from '@react-native-firebase/app';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAi9nwlRo8BWVO2NherGDsWfHWvoGBdXUU",
@@ -75,7 +76,7 @@ export default class RegisterPage extends React.Component {
         });
           return;
       }
-      firebase.auth().createUserWithEmailAndPassword(email, password)
+      auth().createUserWithEmailAndPassword(email, password)
       .then(() => Navigation.pop(this.props.componentId))
       .catch(error =>  {
         Navigation.showOverlay({

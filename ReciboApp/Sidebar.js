@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import { StyleSheet, ScrollView, View, Text, Image, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image, TouchableOpacity, SafeAreaView, Dimensions, Button, Alert  } from 'react-native';
  
 const { width, height } = Dimensions.get('window');
 
@@ -9,11 +9,24 @@ const { width, height } = Dimensions.get('window');
 import {createAppContainer} from 'react-navigation';
 import {createDrawerNavigator, DrawerItems} from 'react-navigation-drawer';
 import {createStackNavigator} from 'react-navigation-stack';
+import firebase from '@react-native-firebase/app';
+import auth from '@react-native-firebase/auth';
+import firebaseConfig from "./firebaseConfig";
+import {NavigationActions} from 'react-navigation';
+import { Navigation } from 'react-native-navigation';
+import { useNavigation } from '@react-navigation/native';
 
 import Page4 from './Page4';
 import Page5 from './Page5';
 import HomeScreen from './HomeScreen';
+import LogIn from './LogIn';
 
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }else {
+    firebase.app(); // if already initialized, use that one
+  }
 class NavigationDrawerStructure extends Component {
   //Structure for the navigatin Drawer
   toggleDrawer = () => {
@@ -36,7 +49,11 @@ class NavigationDrawerStructure extends Component {
 }
 
 // To Add Header on top of side Menu
-const DrawerTopView = (props) => (
+const DrawerTopView = (props) => {
+    
+    //const navigation = useNavigation();
+    
+  return (
   <ScrollView 
     contentContainerStyle={{flexGrow: 1,  flexDirection: 'column', justifyContent: 'flex-start'}} 
     style = {{backgroundColor: '#fff', height: height}}
@@ -51,6 +68,7 @@ const DrawerTopView = (props) => (
       <DrawerItems {...props} />
     </SafeAreaView>
 
+
       <View style={styles.bottom}>
       <Text style={styles.version}>Version 1.0</Text>
       <Text style={styles.copyright}>Copyright Recibo Team. All Rights Reserved</Text>
@@ -58,8 +76,26 @@ const DrawerTopView = (props) => (
       </View>
 
   </ScrollView>
-);
+  )};
 
+
+//  <Button
+//  title="Sign Out"
+//  onPress={() => {
+      
+//      auth().signOut()
+//      .then(function() {
+//          //navigation.navigate('com.Recibo.LogIn')
+//          console.log('Signed Out');
+//      })
+//      .catch (function(error) {
+//          console.log(error)
+//      });
+      
+      
+//      props.navigation.popToTop();
+//  }}
+///>
 // Common navigation style for all Pages
 const navigations = ({ navigation }) => ({
   headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
@@ -86,12 +122,12 @@ const Page4_Stack = createStackNavigator({
   }
 });
 
-const Page5_Stack = createStackNavigator({
-  Page5: {
-    screen: Page5,
-    navigationOptions: navigations,
-  }
-});
+const logInStack = createStackNavigator({
+    logIn: {
+        screen: LogIn,
+        navigationOptions: navigations,
+    }
+})
 
 const DrawerNavigator = createDrawerNavigator({
   
@@ -107,16 +143,47 @@ const DrawerNavigator = createDrawerNavigator({
       drawerLabel: 'About Us',
     },
   },
-  Page5: {
-    screen: Page5_Stack,
-    navigationOptions: {
-      drawerLabel: 'Sign Out',
-    },
-  },
 }, 
 {
-  contentComponent: DrawerTopView,
+    contentComponent: DrawerTopView,
 });
+//{
+//    contentComponent:(props) => (
+
+//        <View style={{flex:1}}>
+            
+//            <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+//                <DrawerItems {...props} />
+                //<Button
+                //    title="Sign Out"
+                //    onPress={() => {
+                        
+                //        auth().signOut()
+                //        .then(function() {
+                //            //navigation.navigate('com.Recibo.LogIn')
+                //            console.log('Signed Out');
+                //        })
+                //        .catch (function(error) {
+                //            console.log(error)
+                //        });
+                        
+                        
+                //        props.navigation.dispatch(NavigationActions.reset({
+                //            index: 0,
+                //            key: null,  // black magic
+                //            actions: [NavigationActions.navigate({ routeName: 'logInStack' })]
+                //          }))
+                //    }}
+                ///>
+//            </SafeAreaView>
+//        </View>
+//    ),
+//    drawerOpenRoute: 'DrawerOpen',
+//    drawerCloseRoute: 'DrawerClose',
+//    drawerToggleRoute: 'DrawerToggle', 
+//    DrawerTopView
+//});
+
 
 const styles = StyleSheet.create({
   item: {

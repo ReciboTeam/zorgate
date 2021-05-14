@@ -13,7 +13,6 @@ import HomeScreen from "./HomeScreen";
 import ReceiptsDisplay from "./ReceiptsDisplay";
 import Sidebar from './Sidebar';
 import SearchPage from './SearchPage';
-//import SignOut from './SignOut';
 
 Navigation.registerComponent('com.Recibo.LogIn', () => LogIn);
 Navigation.registerComponent('com.Recibo.RegisterPage', () => RegisterPage);

@@ -16,6 +16,7 @@ if (!firebase.apps.length) {
     firebase.app(); // if already initialized, use that one
  }
 
+Navigation.registerComponent('com.Recibo.LogIn', () => LogIn);
 export default class LogIn extends React.Component {
   state={
     email:"",
@@ -27,7 +28,7 @@ export default class LogIn extends React.Component {
       .then((user)=> {
         Navigation.push(this.props.componentId, {
             component: {
-                name: 'com.Recibo.HomeScreen'
+                name: 'com.Recibo.Sidebar'
             }
         });
       })

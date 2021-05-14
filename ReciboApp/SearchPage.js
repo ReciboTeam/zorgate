@@ -335,11 +335,11 @@ const styles = StyleSheet.create({
     },
 
     containerStyle: {
-      backgroundColor: 'lightgrey',
+      backgroundColor: '#EFEFFF',
     },
     searchBarStyle: {
       justifyContent:"center",
-      backgroundColor: 'lightgrey',
+      backgroundColor: '#EFEFFF',
     },
     inputBoxStyle: {
       justifyContent:"center",

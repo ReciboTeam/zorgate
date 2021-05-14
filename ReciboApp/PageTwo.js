@@ -7,9 +7,11 @@
  */
 'use strict';
 
-import * as firebase from 'firebase';
+import functions from '@react-native-firebase/functions';
+import firebase from '@react-native-firebase/app';
 require("firebase/functions");  // Required for side-effects
 
+import firebaseConfig from './firebaseConfig';
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -23,6 +25,11 @@ import { RNCamera } from 'react-native-camera';
 import { Navigation } from 'react-native-navigation';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+ }else {
+    firebase.app(); // if already initialized, use that one
+ }
 
 export default class PageTwo extends React.Component {
   showReceipt = (receipt) => {
@@ -48,14 +55,14 @@ export default class PageTwo extends React.Component {
   onSuccess = e => {
     const documentId = e.data;
 
-    const functions = firebase.functions();
+
     console.log(functions);
-    const getReceipt = functions.httpsCallable('registerReceipt');
+    const getReceipt = functions().httpsCallable('registerReceipt');
 
     getReceipt({documentId: documentId})
       .then((result) => {
         console.log(result);
-        this.showReceipt(result.data);
+        this.showReceipt(/* result.data */ "Receipt Scanned");
       })
       .catch((error) => console.error("receipt error", error.code, error.message, error.details));
   };

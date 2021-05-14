@@ -408,11 +408,11 @@ const styles = StyleSheet.create({
     },
 
     containerStyle: {
-      backgroundColor: 'lightgrey',
+      backgroundColor: '#EFEFFF',
     },
     headerStyle: {
       justifyContent:"center",
-      backgroundColor: 'lightgrey',
+      backgroundColor: '#EFEFFF',
       height: 39,
     },
     segmentButton: {

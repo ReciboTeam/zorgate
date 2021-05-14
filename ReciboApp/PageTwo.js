@@ -55,14 +55,14 @@ export default class PageTwo extends React.Component {
   onSuccess = e => {
     const documentId = e.data;
 
-    
+
     console.log(functions);
     const getReceipt = functions().httpsCallable('registerReceipt');
 
     getReceipt({documentId: documentId})
       .then((result) => {
         console.log(result);
-        this.showReceipt(result.data);
+        this.showReceipt(/* result.data */ "Receipt Scanned");
       })
       .catch((error) => console.error("receipt error", error.code, error.message, error.details));
   };
